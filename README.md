@@ -106,3 +106,8 @@ This project requires **no installation, no node_modules, and no backend servers
 * Toast notifications for all key actions
 * Fully responsive layout (mobile, tablet, desktop)
 * Voice input (Web Speech API dictation)
+
+## 👨‍💻 Developer
+
+Developed by Vinay Mutekar
+
