@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBank AI – AI-Powered Banking Service & Grievance Management Portal</title>
+
+    <!-- Service Worker / PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563EB">
+    <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="./assets/icons/favicon.ico">
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts & Icon Libraries -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ChartJS for Analytics Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Splash Loading Screen -->
+    <div id="splash-screen">
+        <div class="splash-logo">
+            <i class="fas fa-building-columns"></i>
+        </div>
+        <h1 class="glitch">SMARTBANK AI</h1>
+        <p>Initializing AI Banking Engine &amp; Secure Vaults...</p>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Top Navigation Header -->
+    <header class="main-nav">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fas fa-building-columns brand-icon"></i>
+                <div>
+                    <span class="brand-title">SmartBank AI</span>
+                    <span class="brand-badge">AI Banking Assistant</span>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button id="toggle-form-btn" class="nav-btn ripple"><i class="fas fa-plus"></i> Submit Request</button>
+                <button id="toggle-map-btn" class="nav-btn ripple"><i class="fas fa-map-marked-alt"></i> Branch Network</button>
+                <button id="export-csv-btn" class="nav-btn-icon tooltip" data-tooltip="Export CSV"><i class="fas fa-file-csv"></i></button>
+                <button id="export-pdf-btn" class="nav-btn-icon tooltip" data-tooltip="Export PDF Dashboard"><i class="fas fa-file-pdf"></i></button>
+                <button id="about-btn" class="nav-btn-icon tooltip" data-tooltip="About"><i class="fas fa-info-circle"></i></button>
+                <div class="theme-switch-container">
+                    <input type="checkbox" id="dark-mode-switch" class="theme-checkbox">
+                    <label for="dark-mode-switch" class="theme-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="ball"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero Landing -->
+    <section class="hero-section">
+        <div class="hero-bg-glow"></div>
+        <div class="container hero-container">
+            <div class="hero-content animate-in">
+                <span class="pill-label"><i class="fas fa-microchip"></i> AI-Powered Banking Platform</span>
+                <h1 class="project-title">SmartBank AI</h1>
+                <h2 class="tagline">AI-Powered Banking Service &amp; Smart Customer Support</h2>
+                <p class="project-description">
+                    Manage banking service requests intelligently using AI-assisted classification, urgency prediction,
+                    smart department routing and real-time analytics — all wrapped in a secure, premium fintech experience.
+                </p>
+                <div class="hero-cta-group">
+                    <button id="scroll-form-btn" class="btn btn-primary btn-glow ripple"><i class="fas fa-paper-plane"></i> Submit Request</button>
+                    <button id="scroll-stats-btn" class="btn btn-outline ripple"><i class="fas fa-chart-line"></i> View Dashboard</button>
+                </div>
+            </div>
+
+            <!-- Animated AI Banking Status Panel -->
+            <div class="hero-dashboard-preview glassmorphism-card animate-in">
+                <div class="terminal-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <span class="terminal-title">ai_banking_engine.log</span>
+                </div>
+                <div class="terminal-body font-mono">
+                    <p class="text-green"><span class="status-pulse"></span> AI Core Active. Secure channel established.</p>
+                    <p class="text-blue">> Fraud Shield &amp; Urgency Prediction: <strong>Online</strong></p>
+                    <p class="text-yellow">> Smart Department Auto-Routing: <strong>Ready</strong></p>
+                    <p class="text-white">> Listening for incoming banking service requests...</p>
+                </div>
+                <div class="ai-mini-stats">
+                    <div class="ai-mini-stat">
+                        <span class="ai-mini-value" id="hero-requests-today">0</span>
+                        <span class="ai-mini-label">Requests Today</span>
+                    </div>
+                    <div class="ai-mini-stat">
+                        <span class="ai-mini-value">99.9%</span>
+                        <span class="ai-mini-label">AI Uptime</span>
+                    </div>
+                    <div class="ai-mini-stat">
+                        <span class="ai-mini-value" id="hero-avg-response">--</span>
+                        <span class="ai-mini-label">Avg. Response</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Branch Network Live Map Section -->
+    <section id="map-section" class="container" style="display: none;">
+        <div class="glassmorphism-card">
+            <div class="section-title-wrap">
+                <h2><i class="fas fa-map-marked-alt text-primary"></i> Branch Network Live Map</h2>
+                <p class="section-subtitle font-mono">Simulated Geographic Distribution of Banking Service Requests Across Branches</p>
+            </div>
+            <div class="map-wrapper">
+                <div class="map-sidebar">
+                    <h3>Active Branch Events</h3>
+                    <div id="map-events-list" class="map-events-list">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+                <div class="map-canvas-container">
+                    <!-- Custom simulated grid map -->
+                    <div id="simulated-map" class="city-grid-map">
+                        <div class="map-legend">
+                            <span><i class="fas fa-circle text-red"></i> Fraud Report</span>
+                            <span><i class="fas fa-circle text-orange"></i> Card Services</span>
+                            <span><i class="fas fa-circle text-blue"></i> Digital Banking</span>
+                            <span><i class="fas fa-circle text-yellow"></i> Loans</span>
+                        </div>
+                        <div id="markers-layer" class="markers-layer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- Banking Request Form Section -->
+        <section id="request-form-section" class="glassmorphism-card slide-up" style="display: none;">
+            <div class="section-title-wrap">
+                <h2><i class="fas fa-edit text-secondary"></i> Submit a Banking Service Request</h2>
+                <p class="section-subtitle">AI-assisted urgency prediction, department routing, and resolution estimation run in real-time</p>
+            </div>
+            <form id="request-form" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user-circle"></i> Customer Name</label>
+                        <input type="text" id="name" placeholder="John Doe" required>
+                        <span class="error-msg" id="name-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope-open-text"></i> Email Address</label>
+                        <input type="email" id="email" placeholder="john.doe@example.com" required>
+                        <span class="error-msg" id="email-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="mobile"><i class="fas fa-mobile-screen-button"></i> Mobile Number</label>
+                        <input type="tel" id="mobile" placeholder="98765 43210" required>
+                        <span class="error-msg" id="mobile-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountType"><i class="fas fa-wallet"></i> Account Type</label>
+                        <select id="accountType" required>
+                            <option value="">Select Account Type</option>
+                            <option value="Savings">Savings</option>
+                            <option value="Current">Current</option>
+                            <option value="Business">Business</option>
+                        </select>
+                        <span class="error-msg" id="accountType-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="category"><i class="fas fa-tags"></i> Issue Category</label>
+                        <select id="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Loan">Loan</option>
+                            <option value="UPI">UPI</option>
+                            <option value="Net Banking">Net Banking</option>
+                            <option value="Mobile Banking">Mobile Banking</option>
+                            <option value="KYC">KYC</option>
+                            <option value="Account Opening">Account Opening</option>
+                            <option value="Fixed Deposit">Fixed Deposit</option>
+                            <option value="Fraud Report">Fraud Report</option>
+                            <option value="General Query">General Query</option>
+                        </select>
+                        <span class="error-msg" id="category-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="branch"><i class="fas fa-map-pin"></i> Branch</label>
+                        <input type="text" id="branch" placeholder="e.g. MG Road Branch, Bengaluru" required>
+                        <span class="error-msg" id="branch-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label for="description"><i class="fas fa-comment-dots"></i> Detailed Description</label>
+                        <button type="button" id="voice-input-btn" class="btn-voice tooltip" data-tooltip="Speak to input Description">
+                            <i class="fas fa-microphone"></i> Dictate Text
+                        </button>
+                    </div>
+                    <textarea id="description" rows="5" placeholder="Describe your banking issue in detail (e.g. 'My debit card got blocked after 3 failed PIN attempts at the ATM...'). Our AI engine scans for urgency keywords." required></textarea>
+                    <span class="error-msg" id="description-error"></span>
+                </div>
+
+                <div style="text-align: right; margin-top: 15px;">
+                    <button type="button" id="cancel-form-btn" class="btn btn-outline" style="margin-right: 10px;">Cancel</button>
+                    <button type="submit" class="btn btn-secondary btn-glow ripple"><i class="fas fa-brain"></i> Analyze &amp; Submit</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Stats Dashboard Overview -->
+        <section id="dashboard-section" class="glassmorphism-card">
+            <div class="section-title-wrap">
+                <h2><i class="fas fa-chart-bar text-primary"></i> Executive Banking Dashboard</h2>
+                <p class="section-subtitle">Real-time service performance metrics, resolution stats, and AI intelligence insights</p>
+            </div>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue"><i class="fas fa-folder-open"></i></div>
+                    <div>
+                        <h3>Total Requests</h3>
+                        <p id="total-requests" class="counter">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-red"><i class="fas fa-triangle-exclamation"></i></div>
+                    <div>
+                        <h3>Critical Requests</h3>
+                        <p id="critical-requests" class="counter">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-orange"><i class="fas fa-spinner fa-pulse"></i></div>
+                    <div>
+                        <h3>Pending</h3>
+                        <p id="pending-requests" class="counter">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green"><i class="fas fa-check-double"></i></div>
+                    <div>
+                        <h3>Resolved</h3>
+                        <p id="resolved-requests" class="counter">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-cyan"><i class="fas fa-hourglass-half"></i></div>
+                    <div>
+                        <h3>Avg. Resolution Time</h3>
+                        <p id="avg-resolution-time" class="counter" data-suffix=" Hrs">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-red"><i class="fas fa-user-shield"></i></div>
+                    <div>
+                        <h3>Fraud Alerts</h3>
+                        <p id="fraud-alerts" class="counter">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green"><i class="fas fa-face-smile"></i></div>
+                    <div>
+                        <h3>Customer Satisfaction</h3>
+                        <p id="customer-satisfaction" class="counter" data-suffix="%">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue"><i class="fas fa-mobile-screen"></i></div>
+                    <div>
+                        <h3>Digital Banking Requests</h3>
+                        <p id="digital-banking-requests" class="counter">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resolution Rate Progress -->
+            <div class="resolution-progress-container" style="margin-top: 25px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span class="font-mono">REQUEST RESOLUTION RATE</span>
+                    <span id="resolution-percentage" class="font-mono">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="resolution-progress-fill" class="progress-bar-fill"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Grid -->
+        <section class="glassmorphism-card">
+            <div class="section-title-wrap">
+                <h2><i class="fas fa-chart-pie text-secondary"></i> Banking Analytics</h2>
+                <p class="section-subtitle">Visual breakdown of request categories, priorities, departments and resolution trends</p>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Category Distribution</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Priority Distribution</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Monthly Requests</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Department Workload</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="departmentChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card chart-card-wide">
+                    <h3>Resolution Trend (Last 7 Days)</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="resolutionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Insights Panel -->
+        <section class="glassmorphism-card">
+            <h3><i class="fas fa-brain text-primary"></i> AI Banking Summary</h3>
+            <div id="ai-insights-content" class="ai-insights-panel">
+                <div class="ai-insight-item">
+                    <span class="insight-label">Most Reported Issue:</span>
+                    <span id="ai-top-category" class="insight-value text-primary">Calculating...</span>
+                </div>
+                <div class="ai-insight-item">
+                    <span class="insight-label">Peak Request Time:</span>
+                    <span id="ai-peak-time" class="insight-value text-orange">Calculating...</span>
+                </div>
+                <div class="ai-insight-item">
+                    <span class="insight-label">Average Resolution:</span>
+                    <span id="ai-mean-resolution" class="insight-value text-green">Calculating...</span>
+                </div>
+                <div class="ai-recommendation">
+                    <h4><i class="fas fa-lightbulb"></i> AI Recommendation</h4>
+                    <p id="ai-system-recommendation">System collecting telemetry data to compile optimization suggestions...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Master Request List and Directory -->
+        <section id="requests-list-section" class="glassmorphism-card">
+            <div class="section-title-wrap" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h2><i class="fas fa-server text-secondary"></i> Request Management Ledger</h2>
+                    <p class="section-subtitle">Search, filter, edit, resolve, or export incoming banking service requests</p>
+                </div>
+                <div class="ledger-actions">
+                    <button id="clear-all-data" class="btn btn-outline" style="border-color: #E74C3C; color: #E74C3C;"><i class="fas fa-trash-alt"></i> Clear All Records</button>
+                </div>
+            </div>
+
+            <!-- Filters Area -->
+            <div class="filter-controls">
+                <div class="search-box-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search by name, reference no., category or branch...">
+                </div>
+                <select id="filter-category">
+                    <option value="all">All Categories</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Loan">Loan</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Net Banking">Net Banking</option>
+                    <option value="Mobile Banking">Mobile Banking</option>
+                    <option value="KYC">KYC</option>
+                    <option value="Account Opening">Account Opening</option>
+                    <option value="Fixed Deposit">Fixed Deposit</option>
+                    <option value="Fraud Report">Fraud Report</option>
+                    <option value="General Query">General Query</option>
+                </select>
+                <select id="filter-priority">
+                    <option value="all">All Priorities</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Normal">Normal</option>
+                </select>
+                <select id="filter-department">
+                    <option value="all">All Departments</option>
+                    <option value="Digital Banking">Digital Banking</option>
+                    <option value="Card Services">Card Services</option>
+                    <option value="Loans">Loans</option>
+                    <option value="Customer Support">Customer Support</option>
+                    <option value="Fraud Investigation">Fraud Investigation</option>
+                    <option value="Operations">Operations</option>
+                    <option value="KYC Team">KYC Team</option>
+                </select>
+                <select id="filter-status">
+                    <option value="all">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+            </div>
+
+            <!-- Grid of Cards -->
+            <div id="requests-container" class="requests-grid">
+                <!-- Request cards populated dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Action Trigger (FAB) -->
+    <div class="fab" id="floating-lodge-btn">
+        <i class="fas fa-plus"></i>
+        <span class="fab-tooltip">Submit Request</span>
+    </div>
+
+    <!-- Admin Edit Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content glassmorphism-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3><i class="fas fa-edit text-primary"></i> Edit Banking Request</h3>
+                <button type="button" id="close-modal-btn" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                <div class="form-group">
+                    <label for="edit-name">Customer Name</label>
+                    <input type="text" id="edit-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email</label>
+                    <input type="email" id="edit-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-mobile">Mobile Number</label>
+                    <input type="tel" id="edit-mobile" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-accountType">Account Type</label>
+                    <select id="edit-accountType" required>
+                        <option value="Savings">Savings</option>
+                        <option value="Current">Current</option>
+                        <option value="Business">Business</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-category">Issue Category</label>
+                    <select id="edit-category" required>
+                        <option value="Debit Card">Debit Card</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Loan">Loan</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Net Banking">Net Banking</option>
+                        <option value="Mobile Banking">Mobile Banking</option>
+                        <option value="KYC">KYC</option>
+                        <option value="Account Opening">Account Opening</option>
+                        <option value="Fixed Deposit">Fixed Deposit</option>
+                        <option value="Fraud Report">Fraud Report</option>
+                        <option value="General Query">General Query</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-branch">Branch</label>
+                    <input type="text" id="edit-branch" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-description">Description</label>
+                    <textarea id="edit-description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="edit-status">Request Status</label>
+                    <select id="edit-status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" id="cancel-edit-btn" class="btn btn-outline" style="margin-right: 10px;">Discard</button>
+                    <button type="submit" class="btn btn-secondary ripple"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content glassmorphism-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3><i class="fas fa-info-circle text-primary"></i> About SmartBank AI</h3>
+                <button type="button" id="close-about-modal-btn" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="about-content">
+                <p><strong>Version:</strong> v2.0.0</p>
+                <p><strong>Project:</strong> AI-Powered Banking Service &amp; Grievance Management Portal</p>
+                <p><strong>Team:</strong> [INNOVATEX]</p>
+                <p><strong>Team Leader:</strong> [Vinay Mutekar]</p>
+                <p><strong>Project Goal:</strong> To empower banking customers and support teams with an intelligent platform for efficient service request resolution using AI-assisted classification and routing.</p>
+                <p><strong>Technologies Used:</strong> HTML5, CSS3 (Glassmorphism, custom responsive grid), Modular ES6 JavaScript, Chart.js, Font Awesome, Web Speech API.</p>
+                <p><strong>License:</strong> MIT License</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Undo Delete Notification Bar -->
+    <div id="undo-bar" class="undo-snackbar">
+        <div class="undo-content">
+            <i class="fas fa-trash-restore"></i>
+            <span>Banking request deleted.</span>
+            <button id="undo-btn" class="undo-btn-link">UNDO</button>
+        </div>
+    </div>
+
+    <!-- Loading overlay with AI processing message -->
+    <div id="loading-overlay">
+        <div class="ai-processing-box">
+            <div class="spinner"></div>
+            <p id="loading-message">Analyzing request with AI engine...</p>
+            <div class="ai-processing-steps" id="ai-processing-steps"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Stack -->
+    <div id="toast-container"></div>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <h3><i class="fas fa-building-columns"></i> SmartBank AI</h3>
+                <p>AI-powered banking service &amp; grievance management for a smarter, safer customer experience.</p>
+            </div>
+            <div class="footer-links">
+                <h4>System Telemetry</h4>
+                <p><i class="fas fa-shield-virus"></i> Version v2.0.0</p>
+                <p><i class="fas fa-cloud"></i> Offline-Ready Local Storage</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SmartBank AI. AI-Powered Banking Service Portal.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Core Script -->
+    <script src="script.js"></script>
+</body>
+</html>
