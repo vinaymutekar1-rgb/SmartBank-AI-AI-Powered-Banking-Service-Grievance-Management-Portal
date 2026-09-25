@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="SmartBank AI - AI-powered loan eligibility, credit score, EMI and financial guidance platform.">
+  <title>SmartBank AI — AI Loan Eligibility Checker</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <div id="splash-screen" aria-hidden="true">
+    <div class="splash-orb"><i class="fa-solid fa-building-columns"></i></div>
+    <h1>SMARTBANK AI</h1>
+    <p>Initializing AI Loan Decision Engine...</p>
+    <div class="loader"><span></span></div>
+  </div>
+
+  <header class="main-nav">
+    <div class="nav-container">
+      <a class="brand" href="#top" aria-label="SmartBank AI home">
+        <div class="brand-mark"><i class="fa-solid fa-building-columns"></i></div>
+        <div>
+          <span class="brand-title">SmartBank AI</span>
+          <span class="brand-subtitle">AI Loan Eligibility Checker</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#tools">Tools</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="icon-btn" type="button" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button id="clear-data-btn" class="nav-btn secondary" type="button">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero-section">
+      <div class="hero-grid-bg"></div>
+      <div class="container hero-container">
+        <div class="hero-copy animate-in">
+          <span class="pill"><i class="fa-solid fa-microchip"></i> AI-Powered BFSI Platform</span>
+          <h1>Make smarter loan decisions with <span>AI.</span></h1>
+          <p>One seamless interface for loan eligibility analysis, credit score insights, EMI planning, and personalized financial guidance.</p>
+          <div class="hero-actions">
+            <a href="#loan-checker" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Check Eligibility</a>
+            <a href="#tools" class="btn btn-outline"><i class="fa-solid fa-grip"></i> Explore Tools</a>
+          </div>
+          <div class="hero-note"><i class="fa-solid fa-shield-halved"></i> Your session data stays in your browser unless cloud storage is configured.</div>
+        </div>
+
+        <div class="hero-terminal glass-card animate-in">
+          <div class="terminal-top">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">loan_ai_engine.log</span>
+          </div>
+          <div class="terminal-body font-mono">
+            <p><span class="ok">●</span> Eligibility engine <strong>ONLINE</strong></p>
+            <p><span class="cyan">›</span> Salary validation <strong>READY</strong></p>
+            <p><span class="cyan">›</span> Credit score analysis <strong>READY</strong></p>
+            <p><span class="cyan">›</span> EMI calculation <strong>READY</strong></p>
+            <p><span class="cyan">›</span> AI guidance <strong id="ai-status">DEMO MODE</strong></p>
+          </div>
+          <div class="mini-stats">
+            <div><strong id="history-count">0</strong><span>Analyses</span></div>
+            <div><strong>4</strong><span>Core Tools</span></div>
+            <div><strong>24/7</strong><span>Access</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools" class="container tools-section">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">FINANCIAL TOOLKIT</span>
+          <h2>Four tools. One intelligent workspace.</h2>
+        </div>
+        <p>Built around the SkillWallet project brief: loan eligibility, credit analysis, EMI planning, and AI financial guidance.</p>
+      </div>
+
+      <div class="tool-tabs" role="tablist" aria-label="Financial tools">
+        <button class="tool-tab active" data-target="loan-checker" role="tab" aria-selected="true"><i class="fa-solid fa-file-invoice-dollar"></i><span>Loan Eligibility</span></button>
+        <button class="tool-tab" data-target="credit-analyzer" role="tab" aria-selected="false"><i class="fa-solid fa-chart-line"></i><span>Credit Analyzer</span></button>
+        <button class="tool-tab" data-target="emi-calculator" role="tab" aria-selected="false"><i class="fa-solid fa-calculator"></i><span>EMI Calculator</span></button>
+        <button class="tool-tab" data-target="financial-tips" role="tab" aria-selected="false"><i class="fa-solid fa-brain"></i><span>AI Financial Tips</span></button>
+      </div>
+
+      <section id="loan-checker" class="tool-panel active glass-card" role="tabpanel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-icon"><i class="fa-solid fa-landmark"></i></span>
+            <h2>Loan Eligibility Checker</h2>
+            <p>Evaluate the applicant against the project-defined eligibility rules.</p>
+          </div>
+          <span class="status-chip"><i class="fa-solid fa-circle-check"></i> Rule Engine Ready</span>
+        </div>
+
+        <form id="loan-form" class="form-grid" novalidate>
+          <div class="form-field">
+            <label for="name">Applicant Name</label>
+            <div class="input-wrap"><i class="fa-solid fa-user"></i><input id="name" name="name" type="text" placeholder="Enter full name" autocomplete="name" required></div>
+            <small class="field-error" id="name-error"></small>
+          </div>
+          <div class="form-field">
+            <label for="salary">Monthly Salary (₹)</label>
+            <div class="input-wrap"><i class="fa-solid fa-indian-rupee-sign"></i><input id="salary" name="salary" type="number" min="0" step="1000" placeholder="50000" required></div>
+            <small class="field-help">Required: more than ₹30,000</small>
+            <small class="field-error" id="salary-error"></small>
+          </div>
+          <div class="form-field">
+            <label for="score">Credit Score</label>
+            <div class="input-wrap"><i class="fa-solid fa-gauge-high"></i><input id="score" name="score" type="number" min="300" max="900" step="1" placeholder="750" required></div>
+            <small class="field-help">CIBIL range: 300–900</small>
+            <small class="field-error" id="score-error"></small>
+          </div>
+          <div class="form-field">
+            <label for="emiInput">Existing EMI (₹ / month)</label>
+            <div class="input-wrap"><i class="fa-solid fa-money-check-dollar"></i><input id="emiInput" name="emiInput" type="number" min="0" step="500" placeholder="10000" required></div>
+            <small class="field-help">Required: less than ₹20,000</small>
+            <small class="field-error" id="emiInput-error"></small>
+          </div>
+          <div class="form-field">
+            <label for="age">Applicant Age</label>
+            <div class="input-wrap"><i class="fa-solid fa-calendar-days"></i><input id="age" name="age" type="number" min="18" max="100" step="1" placeholder="24" required></div>
+            <small class="field-help">Required: 21 years or older</small>
+            <small class="field-error" id="age-error"></small>
+          </div>
+          <div class="form-field form-field-wide">
+            <label for="loanPurpose">Loan Purpose <span class="optional">optional</span></label>
+            <div class="input-wrap"><i class="fa-solid fa-bullseye"></i><select id="loanPurpose" name="loanPurpose"><option value="Personal">Personal</option><option value="Education">Education</option><option value="Home Improvement">Home Improvement</option><option value="Vehicle">Vehicle</option><option value="Business">Business</option></select></div>
+          </div>
+          <div class="form-actions form-field-wide">
+            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-bolt"></i> Analyze Eligibility</button>
+            <button class="btn btn-outline" type="button" id="loan-reset-btn">Clear Form</button>
+          </div>
+        </form>
+
+        <div id="eligibility-result" class="result-area hidden" aria-live="polite"></div>
+      </section>
+
+      <section id="credit-analyzer" class="tool-panel glass-card" role="tabpanel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-icon"><i class="fa-solid fa-chart-simple"></i></span>
+            <h2>Credit Score Analyzer</h2>
+            <p>Classify the entered credit score and show practical improvement guidance.</p>
+          </div>
+          <span class="status-chip"><i class="fa-solid fa-chart-pie"></i> Score Model</span>
+        </div>
+
+        <div class="single-tool-grid">
+          <div class="form-field">
+            <label for="credit-score-input">Credit Score</label>
+            <div class="input-wrap input-xl"><i class="fa-solid fa-gauge"></i><input id="credit-score-input" type="number" min="300" max="900" value="750" placeholder="750"></div>
+            <div class="score-range"><span>300</span><div class="score-track"><span id="score-marker"></span></div><span>900</span></div>
+            <button id="analyze-credit-btn" class="btn btn-primary full-width" type="button"><i class="fa-solid fa-magnifying-glass-chart"></i> Analyze Credit Score</button>
+          </div>
+          <div id="credit-result" class="result-card muted-result">
+            <i class="fa-solid fa-chart-line result-placeholder-icon"></i>
+            <p>Enter a score and run the analyzer to see the classification.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="emi-calculator" class="tool-panel glass-card" role="tabpanel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-icon"><i class="fa-solid fa-calculator"></i></span>
+            <h2>EMI Calculator</h2>
+            <p>Calculate monthly repayment using the reducing-balance EMI formula.</p>
+          </div>
+          <span class="status-chip"><i class="fa-solid fa-square-root-variable"></i> Live Formula</span>
+        </div>
+
+        <div class="single-tool-grid">
+          <div class="form-stack">
+            <div class="form-field">
+              <label for="principal">Loan Amount (₹)</label>
+              <div class="input-wrap"><i class="fa-solid fa-indian-rupee-sign"></i><input id="principal" type="number" min="1" step="5000" value="1000000"></div>
+            </div>
+            <div class="form-field">
+              <label for="interest">Annual Interest Rate (%)</label>
+              <div class="input-wrap"><i class="fa-solid fa-percent"></i><input id="interest" type="number" min="0" step="0.1" value="9.5"></div>
+            </div>
+            <div class="form-field">
+              <label for="tenure">Loan Tenure (Years)</label>
+              <div class="input-wrap"><i class="fa-solid fa-calendar"></i><input id="tenure" type="number" min="1" max="40" step="1" value="5"></div>
+            </div>
+            <button id="calculate-emi-btn" class="btn btn-primary full-width" type="button"><i class="fa-solid fa-calculator"></i> Calculate EMI</button>
+          </div>
+
+          <div id="emi-result" class="emi-result-card">
+            <div class="emi-primary"><span>Monthly EMI</span><strong id="emi-value">₹0</strong></div>
+            <div class="emi-breakdown"><div><span>Principal</span><strong id="emi-principal">₹0</strong></div><div><span>Total Interest</span><strong id="emi-interest">₹0</strong></div><div><span>Total Payment</span><strong id="emi-total">₹0</strong></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="financial-tips" class="tool-panel glass-card" role="tabpanel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-icon"><i class="fa-solid fa-brain"></i></span>
+            <h2>AI Financial Tips</h2>
+            <p>Generate contextual financial guidance from the latest values entered on this page.</p>
+          </div>
+          <span id="ai-mode-chip" class="status-chip"><i class="fa-solid fa-robot"></i> Demo AI</span>
+        </div>
+
+        <div class="ai-grid">
+          <div class="ai-input-card">
+            <h3>Context for AI analysis</h3>
+            <div class="ai-context-grid">
+              <div><span>Salary</span><strong id="tip-salary">—</strong></div>
+              <div><span>Credit Score</span><strong id="tip-score">—</strong></div>
+              <div><span>Existing EMI</span><strong id="tip-emi">—</strong></div>
+              <div><span>Age</span><strong id="tip-age">—</strong></div>
+            </div>
+            <textarea id="tip-question" rows="4" placeholder="Ask for guidance, e.g. How can I improve my loan readiness?"></textarea>
+            <button id="generate-tips-btn" class="btn btn-primary full-width" type="button"><i class="fa-solid fa-sparkles"></i> Generate AI Financial Tips</button>
+            <small class="field-help ai-footnote">AI calls use /api/ai when available. Without a backend, the app uses a deterministic local guidance engine.</small>
+          </div>
+
+          <div id="ai-tips-result" class="ai-response-card" aria-live="polite">
+            <div class="ai-response-header"><span><i class="fa-solid fa-wand-magic-sparkles"></i> AI Financial Guidance</span><span id="ai-response-time">Ready</span></div>
+            <div id="ai-response-body" class="ai-response-body">
+              <p class="response-empty"><i class="fa-solid fa-message"></i> Your personalized guidance will appear here.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="container dashboard-section">
+      <div class="section-heading compact">
+        <div><span class="eyebrow">ANALYSIS HISTORY</span><h2>Your recent financial checks</h2></div>
+        <button id="export-history-btn" class="btn btn-outline" type="button"><i class="fa-solid fa-file-export"></i> Export CSV</button>
+      </div>
+      <div class="history-stats">
+        <div class="stat-card"><i class="fa-solid fa-list-check"></i><div><span>Total Analyses</span><strong id="stat-total">0</strong></div></div>
+        <div class="stat-card"><i class="fa-solid fa-circle-check"></i><div><span>Eligible</span><strong id="stat-eligible">0</strong></div></div>
+        <div class="stat-card"><i class="fa-solid fa-circle-xmark"></i><div><span>Not Eligible</span><strong id="stat-rejected">0</strong></div></div>
+        <div class="stat-card"><i class="fa-solid fa-percent"></i><div><span>Eligibility Rate</span><strong id="stat-rate">0%</strong></div></div>
+      </div>
+      <div class="history-table-wrap glass-card">
+        <table class="history-table">
+          <thead><tr><th>Date</th><th>Applicant</th><th>Salary</th><th>Credit Score</th><th>Existing EMI</th><th>Result</th><th>Loan Amount</th></tr></thead>
+          <tbody id="history-body"><tr><td colspan="7" class="empty-row">No analyses yet.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="about" class="container about-section">
+      <div class="about-card glass-card">
+        <div>
+          <span class="eyebrow">PROJECT PROFILE</span>
+          <h2>AI-powered BFSI decision support</h2>
+          <p>SmartBank AI combines client-side validation and financial calculations with optional AI and cloud-storage integrations. The interface follows a dark glassmorphism fintech aesthetic and is responsive across desktop, tablet, and mobile screens.</p>
+        </div>
+        <div class="requirements-grid">
+          <div><i class="fa-brands fa-html5"></i><span>HTML5</span></div>
+          <div><i class="fa-brands fa-css3-alt"></i><span>CSS3</span></div>
+          <div><i class="fa-brands fa-js"></i><span>Vanilla JS</span></div>
+          <div><i class="fa-solid fa-robot"></i><span>AI Integration</span></div>
+          <div><i class="fa-solid fa-table"></i><span>Google Sheets</span></div>
+          <div><i class="fa-brands fa-git-alt"></i><span>Git</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
